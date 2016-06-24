@@ -90,4 +90,4 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 import logging
-LOG_LEVEL = logging.INFO
+# LOG_LEVEL = logging.INFO

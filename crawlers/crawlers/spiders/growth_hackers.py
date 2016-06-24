@@ -12,22 +12,13 @@ logger = logging.getLogger()
 
 class GrowingSpider(scrapy.Spider):
     name = "gh"
-    allowed_domains = ["growthhackers.com/"]
+    allowed_domains = ["growthhackers.com"]
     start_urls = [
         "http://growthhackers.com/page/1"
     ]
 
     def __init__(self):
         self.host = "http://growthhackers.com"
-
-    @classmethod
-    def from_crawler(cls, crawler, *args, **kwargs):
-        spider = super(GrowingSpider, cls).from_crawler(crawler, *args, **kwargs)
-        crawler.signals.connect(spider.spider_closed, signals.spider_closed)
-        return spider
-
-    def spider_closed(self, spider):
-        pass
 
     def parse(self, response):
         links = response.xpath('//div[@class="post-content"]/h3/a')
@@ -40,8 +31,8 @@ class GrowingSpider(scrapy.Spider):
             yield item
 
         time.sleep(1)
-        next = response.xpath('//a[@rel="next"]')
-        if next:
-            url = "{}{}".format(self.host, next.xpath("@href").extract()[0])
+        next_page = response.xpath('//a[@rel="next"]')
+        if next_page:
+            url = "{}{}".format(self.host, next_page.xpath("@href").extract()[0])
             logger.info("get {} ...".format(url))
-            yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url=url, callback=self.parse())
