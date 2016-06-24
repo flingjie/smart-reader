@@ -34,7 +34,7 @@ class GrowingSpider(scrapy.Spider):
         for i in links:
             item = {
                 'title': i.xpath("text()").extract(),
-                'href': "{}{}".format(self.host, i.xpath("@href").extract()),
+                'href': "{}{}".format(self.host, i.xpath("@href").extract()[0]),
                 'read': False
             }
             yield item
@@ -42,6 +42,6 @@ class GrowingSpider(scrapy.Spider):
         time.sleep(1)
         next = response.xpath('//a[@rel="next"]')
         if next:
-            url = "{}{}".format(self.host, next.xpath("@href").extract())
+            url = "{}{}".format(self.host, next.xpath("@href").extract()[0])
             logger.info("get {} ...".format(url))
             yield scrapy.Request(url=url, callback=self.parse)
