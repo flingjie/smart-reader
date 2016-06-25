@@ -8,9 +8,35 @@
 </head>
 <body>
     <div id="content">
-        <div class="ui ordered list">
-            <a v-for="i in posts" href="[[ i.href ]]">[[ i.title ]]</a>
+        <div class="ui secondary  menu">
+          <div class="right menu">
+            <a class="ui item" @click="mark_all_read">
+              Mark All as Read
+            </a>
+          </div>
         </div>
+        <table class="ui table">
+          <tbody>
+            <tr v-for="i in posts">
+              <td><a href="[[ i.href ]]" @click="mark_read(i._id)">[[ (cur_page-1)*25 + $index + 1]]. [[ i.title ]]</a></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><th>
+              <div class="ui right floated pagination menu">
+                <a class="icon item" href="/?page=[[ cur_page - 1 ]]" v-if="cur_page > 1">
+                  <i class="left chevron icon"></i>
+                </a>
+                <a class="item" v-bind:class="{ 'active': cur_page == i }"
+                   href="/?page=[[ i ]]" v-for="i in page_list"> [[ i ]]</a>
+                <a class="icon item" href="/?page=[[ cur_page+1 ]]" v-if="cur_page < total_page">
+                  <i class="right chevron icon"></i>
+                </a>
+                   <a class="item" href="/?page=[[ total_page ]]">[[total_page]]</a>
+              </div>
+            </th>
+          </tr></tfoot>
+        </table>
     </div>
 </body>
 <script type="text/javascript" src="{{ url_for('static', filename='libs/node_modules/semantic-ui/dist/semantic.min.js') }}"></script>

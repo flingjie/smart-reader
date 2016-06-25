@@ -1,16 +1,13 @@
 # coding=utf8
 
-from flask import Flask, render_template, request
-from pymongo import MongoClient
-from bson.json_util import dumps
 import math
-from config import *
 
+from bson.json_util import dumps
+from flask import Flask, render_template, request
+from bson.objectid import ObjectId
+from helpers import get_posts_by_page, get_pages_num, col
 
 app = Flask(__name__)
-client = MongoClient()
-db = client[DB_NAME]
-col = db[COL_NAME]
 
 
 @app.route("/")
@@ -18,25 +15,42 @@ def growth_hackers():
     return render_template("growth_hackers.html")
 
 
-@app.route("/posts")
+@app.route("/posts", methods=["POST"])
 def get_posts():
     try:
-        page = int(request.args.get('page', 1))
+        page = int(request.get_json()['page'])
     except Exception as e:
         page = 1
-    total_page = int(math.ceil(col.count()/float(NUM_PER_PAGE)))
-    if page + NUM_PER_PAGE > total_page:
-        if total_page > NUM_PER_PAGE:
-            start_page = total_page - NUM_PER_PAGE + 1
-        else:
-            start_page = 1
-        end_page = total_page + 1
-    else:
-        start_page = page
-        end_page = page + NUM_PER_PAGE
+    start_page, end_page, total_page = get_pages_num(page)
+    posts = get_posts_by_page(page)
     return dumps({
-        "total": total_page,
+        "total_page": total_page,
         "cur_page": page,
         "page_list": range(start_page, end_page),
-        "posts": col.find().skip((page-1) * NUM_PER_PAGE).limit(NUM_PER_PAGE)
+        "posts": posts
     })
+
+
+@app.route("/mark_all_read", methods=["POST"])
+def mark_all_read():
+    try:
+        page = int(request.get_json()['page'])
+        ids = [ObjectId(i) for i in request.get_json()['ids']]
+    except Exception as e:
+        page = 1
+    col.update_many({"_id": {"$in": ids}}, {
+        "$set": {
+            "read": True
+        },
+
+    })
+    start_page, end_page, total_page = get_pages_num(page)
+    posts = get_posts_by_page(page)
+    return dumps({
+        "total_page": total_page,
+        "cur_page": page,
+        "page_list": range(start_page, end_page),
+        "posts": posts
+    })
+
+
