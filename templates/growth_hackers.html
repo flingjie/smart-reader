@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='libs/node_modules/semantic-ui/dist/semantic.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <title>Growth Hackers</title>
+</head>
+<body>
+    <div id="content">
+        <div class="ui ordered list">
+            <a v-for="i in posts" href="[[ i.href ]]">[[ i.title ]]</a>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="{{ url_for('static', filename='libs/node_modules/semantic-ui/dist/semantic.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='libs/node_modules/vue/dist/vue.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='libs/node_modules/vue-resource/dist/vue-resource.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/growth_hackers.js') }}"></script>
+</html>
