@@ -57,10 +57,10 @@ $(document).ready(function() {
                         console.log(response.data);
                       });
             },
-            mark_visit: function(obj_id){
+            mark_visit: function(obj_id, e){
                 this.$http.post('/mark_visit',
                     {obj_id: obj_id}).then((response) => {
-                    this.$set("posts", response.data);
+                        $(e.target).addClass('positive');
                   }, (response) => {
                     console.log(response.data);
                   });

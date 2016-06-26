@@ -17,8 +17,8 @@
         </div>
         <table class="ui table">
           <tbody>
-            <tr v-for="i in posts">
-              <td><a target="_blank" href="[[ i.href ]]" @click="mark_visit(i._id['$oid'])">[[ (cur_page-1)*25 + $index + 1]]. [[ i.title ]]</a></td>
+            <tr v-for="i in posts" @click="mark_visit(i._id['$oid'], $event)">
+              <td><a target="_blank" href="[[ i.href ]]">[[ (cur_page-1)*25 + $index + 1]]. [[ i.title ]]</a></td>
             </tr>
           </tbody>
           <tfoot>
