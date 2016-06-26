@@ -9,6 +9,15 @@
 <body>
     <div id="content">
         <div class="ui secondary  menu">
+          <a class="active item" @click="change_category('new', $event)">
+            New
+          </a>
+          <a class="item" @click="change_category('visit', $event)">
+            Visit
+          </a>
+          <a class="item"  @click="change_category('all', $event)">
+            All
+          </a>
           <div class="right menu">
             <div class="ui item">
               <div class="ui primary button" @click="mark_all_read">Mark All as Read</div>

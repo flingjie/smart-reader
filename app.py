@@ -2,7 +2,7 @@
 from bson.json_util import dumps
 from flask import Flask, render_template, request
 from bson.objectid import ObjectId
-from helpers import get_posts_by_page, get_pages_num, col
+from helpers import get_posts_by_page_and_category, get_pages_num, col
 from config import OK
 
 app = Flask(__name__)
@@ -17,10 +17,11 @@ def growth_hackers():
 def get_posts():
     try:
         page = int(request.get_json()['page'])
+        category = request.get_json()['category']
     except Exception as e:
         page = 1
-    start_page, end_page, total_page = get_pages_num(page)
-    posts = get_posts_by_page(page)
+    start_page, end_page, total_page = get_pages_num(page, category)
+    posts = get_posts_by_page_and_category(page, category)
     return dumps({
         "total_page": total_page,
         "cur_page": page,
@@ -33,6 +34,7 @@ def get_posts():
 def mark_all_read():
     try:
         page = int(request.get_json()['page'])
+        category = request.get_json()['category']
         ids = [ObjectId(i) for i in request.get_json()['ids']]
     except Exception as e:
         page = 1
@@ -42,8 +44,8 @@ def mark_all_read():
         },
 
     })
-    start_page, end_page, total_page = get_pages_num(page)
-    posts = get_posts_by_page(page)
+    start_page, end_page, total_page = get_pages_num(page, category)
+    posts = get_posts_by_page_and_category(page, category)
     return dumps({
         "total_page": total_page,
         "cur_page": page,

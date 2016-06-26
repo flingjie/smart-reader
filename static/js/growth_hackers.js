@@ -19,8 +19,23 @@ $(document).ready(function() {
     new Vue({
         el:'#content',
         ready: function() {
-            this.$set('cur_page', getUrlParameter('page'));
-            this.$http.post('/posts', {"page": this.cur_page}).then((response) => {
+            this.get_post();
+        },
+        data: {
+            posts: [],
+            cur_page: null,
+            page_list: [],
+            total_page: null,
+            category: 'new',
+        },
+        methods: {
+            get_post: function(data){
+                this.$set('cur_page', getUrlParameter('page'));
+                var post_data = {
+                    category: this.category,
+                    page: this.cur_page
+                };
+                this.$http.post('/posts', post_data).then((response) => {
                     var data = JSON.parse(response.data);
                     this.$set("posts", data.posts);
                     this.$set('cur_page', data.cur_page);
@@ -29,14 +44,7 @@ $(document).ready(function() {
                   }, (response) => {
                     console.log(response.data);
                   });
-        },
-        data: {
-            posts: [],
-            cur_page: null,
-            page_list: [],
-            total_page: null
-        },
-        methods: {
+            },
             mark_all_read: function(obj_id){
                 var ids = [];
                 for(var i=0;i<this.posts.length;i++){
@@ -44,6 +52,7 @@ $(document).ready(function() {
                 }
                 var post_data = {
                     ids: ids,
+                    category: this.category,
                     page: this.cur_page
                 }
                 this.$http.post('/mark_all_read',
@@ -64,6 +73,16 @@ $(document).ready(function() {
                   }, (response) => {
                     console.log(response.data);
                   });
+            },
+            change_category: function(category, e){
+                this.$set('category', category);
+                $(e.target)
+                     .addClass('active')
+                     .closest('.ui.menu')
+                     .find('.item')
+                     .not($(e.target))
+                     .removeClass('active');
+                this.get_post();
             }
         }
     });
