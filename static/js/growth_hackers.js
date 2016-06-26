@@ -83,7 +83,13 @@ $(document).ready(function() {
                      .not($(e.target))
                      .removeClass('active');
                 this.get_post();
-            }
+            },
+            on_enter: function(e){
+                $(e.target).addClass('warning');
+            },
+            on_leave: function(e){
+                $(e.target).removeClass('warning');
+            },
         }
     });
 });

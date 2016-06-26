@@ -26,7 +26,11 @@
         </div>
         <table class="ui table">
           <tbody>
-            <tr v-for="i in posts" @click="mark_visit(i._id['$oid'], $event)">
+            <tr v-for="i in posts"
+                @click="mark_visit(i._id['$oid'], $event)"
+                @mouseenter="on_enter"
+                @mouseleave="on_leave"
+            >
               <td><a target="_blank" href="[[ i.href ]]">[[ (cur_page-1)*25 + $index + 1]]. [[ i.title ]]</a></td>
             </tr>
           </tbody>
