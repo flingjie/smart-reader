@@ -20,6 +20,7 @@ def get_posts():
         category = request.get_json()['category']
     except Exception as e:
         page = 1
+        category = 'new'
     start_page, end_page, total_page = get_pages_num(page, category)
     posts = get_posts_by_page_and_category(page, category)
     return dumps({
@@ -38,6 +39,7 @@ def mark_all_read():
         ids = [ObjectId(i) for i in request.get_json()['ids']]
     except Exception as e:
         page = 1
+        category = 'new'
     col.update_many({"_id": {"$in": ids}}, {
         "$set": {
             "read": True

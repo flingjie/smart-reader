@@ -19,6 +19,8 @@ $(document).ready(function() {
     new Vue({
         el:'#content',
         ready: function() {
+            var category = $.cookie('category') || 'new';
+            this.$set('category', category)
             this.get_post();
         },
         data: {
@@ -76,6 +78,7 @@ $(document).ready(function() {
             },
             change_category: function(category, e){
                 this.$set('category', category);
+                $.cookie('category', this.category,  {path: '/'});
                 $(e.target)
                      .addClass('active')
                      .closest('.ui.menu')
