@@ -1,11 +1,9 @@
 # coding=utf8
-
-import math
-
 from bson.json_util import dumps
 from flask import Flask, render_template, request
 from bson.objectid import ObjectId
 from helpers import get_posts_by_page, get_pages_num, col
+from config import OK
 
 app = Flask(__name__)
 
@@ -54,3 +52,12 @@ def mark_all_read():
     })
 
 
+@app.route("/mark_visit", methods=["POST"])
+def mark_visit():
+    obj_id = request.get_json()['obj_id']
+    col.update({"_id": ObjectId(obj_id)}, {
+        "$set": {
+            "visit": True
+        },
+    })
+    return OK

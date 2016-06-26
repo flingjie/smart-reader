@@ -10,15 +10,15 @@
     <div id="content">
         <div class="ui secondary  menu">
           <div class="right menu">
-            <a class="ui item" @click="mark_all_read">
-              Mark All as Read
-            </a>
+            <div class="ui item">
+              <div class="ui primary button" @click="mark_all_read">Mark All as Read</div>
+            </div>
           </div>
         </div>
         <table class="ui table">
           <tbody>
             <tr v-for="i in posts">
-              <td><a href="[[ i.href ]]" @click="mark_read(i._id)">[[ (cur_page-1)*25 + $index + 1]]. [[ i.title ]]</a></td>
+              <td><a target="_blank" href="[[ i.href ]]" @click="mark_visit(i._id['$oid'])">[[ (cur_page-1)*25 + $index + 1]]. [[ i.title ]]</a></td>
             </tr>
           </tbody>
           <tfoot>

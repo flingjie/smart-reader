@@ -26,7 +26,8 @@ class GrowingSpider(scrapy.Spider):
             item = {
                 'title': i.xpath("text()").extract(),
                 'href': "{}{}".format(self.host, i.xpath("@href").extract()[0]),
-                'read': False
+                'read': False,
+                'visit5w333333': False,
             }
             yield item
 
@@ -35,4 +36,4 @@ class GrowingSpider(scrapy.Spider):
         if next_page:
             url = "{}{}".format(self.host, next_page.xpath("@href").extract()[0])
             logger.info("get {} ...".format(url))
-            yield scrapy.Request(url=url, callback=self.parse())
+            yield scrapy.Request(url=url, callback=self.parse)

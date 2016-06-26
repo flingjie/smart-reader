@@ -58,7 +58,7 @@ $(document).ready(function() {
                       });
             },
             mark_visit: function(obj_id){
-                this.$http.post('/mark_read',
+                this.$http.post('/mark_visit',
                     {obj_id: obj_id}).then((response) => {
                     this.$set("posts", response.data);
                   }, (response) => {
