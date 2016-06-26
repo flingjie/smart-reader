@@ -2,7 +2,7 @@
 
 DB_NAME = "ai"
 COL_NAME = "gh"
-NUM_PER_PAGE = 25
+NUM_PER_PAGE = 15
 
 
 OK = "OK"
