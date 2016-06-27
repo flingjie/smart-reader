@@ -24,7 +24,7 @@ class GrowingSpider(scrapy.Spider):
         links = response.xpath('//div[@class="post-content"]/h3/a')
         for i in links:
             item = {
-                'title': i.xpath("text()").extract(),
+                'title': i.xpath("text()").extract()[0],
                 'href': "{}{}".format(self.host, i.xpath("@href").extract()[0]),
                 'read': False,
                 'visit5w333333': False,

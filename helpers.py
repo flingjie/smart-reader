@@ -5,7 +5,7 @@ import math
 
 client = MongoClient()
 db = client[DB_NAME]
-col = db[COL_NAME]
+gh_col = db[GH_COL_NAME]
 
 
 def get_posts_by_page_and_category(page, category):
@@ -30,9 +30,9 @@ def get_pages_num(page, category):
 
 def get_data_by_category(category):
     if category == "all":
-        posts = col.find({})
+        posts = gh_col.find({})
     elif category == "visit":
-        posts = col.find({'visit': True})
+        posts = gh_col.find({'visit': True})
     else:
-        posts = col.find({'read': False})
+        posts = gh_col.find({'read': False})
     return posts
